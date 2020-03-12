@@ -23,6 +23,9 @@ repositories {
         url "http://jars.interlis.ch"
     }
     mavenCentral()
+    flatDir {
+		dirs 'libs'
+	}
 }
 
 Properties properties = new Properties()
@@ -283,9 +286,11 @@ configurations {
     deployerJars
 }
 dependencies {
-    implementation group: 'ch.interlis', name: 'iox-ili', version: '1.20.17+'
-    implementation group: 'ch.interlis', name: 'ili2c-tool', version: "5.0.2"
-    implementation group: 'ch.interlis', name: 'ili2c-core', version: "5.0.2"
+    //implementation group: 'ch.interlis', name: 'iox-ili', version: '1.20.17+'
+    implementation group: 'ch.interlis', name: 'ili2c-tool', version: "5.0.2", {exclude group: 'ch.interlis', module: 'iox-ili'} 
+    implementation group: 'ch.interlis', name: 'ili2c-core', version: "5.0.2", {exclude group: 'ch.interlis', module: 'iox-ili' }
+    compile group: 'com.vividsolutions', name: 'jts-core', version: '1.14.0'
+    
     implementation group: 'ch.ehi', name: 'ehisqlgen', version: "1.13.8"
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.7'
 	implementation group: 'net.iharder', name: 'base64', version: '2.3.9'
@@ -301,7 +306,8 @@ dependencies {
 	ili2fgdbImplementation group: 'ch.ehi', name: 'fgdb4j', version: "1.1.1"
 	compileOnly group: 'ch.ehi', name: 'fgdb4j', version: "1.1.1" // add as compileOnly, so that eclipse sees it
 	ili2mssqlImplementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '6.4.0.jre7'
-	ili2oraImplementation files('lib/ojdbc14.jar')
+	// ili2oraImplementation files('libs/ojdbc7')
+	implementation name: "ojdbc7"
 	ili2db group: project.group, name: project.name, version: project.version
     deployerJars "org.apache.maven.wagon:wagon-ftp:3.3.3"
     deployerJars "org.apache.maven.wagon:wagon-ssh:3.3.3"
